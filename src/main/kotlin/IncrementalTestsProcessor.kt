@@ -58,14 +58,14 @@ class TestConverter {
         }
 
         if (isTestAlreadyConverted(maxSMTTestInfoPath.toFile())) {
-            println("[INFO] [$maxSMTTestInfoPath] already converted")
+            println("[INFO] [$testPath] already converted")
             return
         }
 
         Z3_ctx = Context()
         maxSMTSolver = Z3_ctx.mkOptimize()
 
-//        maxSMTSolver.fromFile(testPath.toString())
+        // maxSMTSolver.fromFile(testPath.toString())
 
         val expressions = Z3_ctx.parseSMTLIB2File(
             testPath.toString(),
@@ -96,14 +96,11 @@ class TestConverter {
 
         var softConstraintsWeightsSum = 0u
 
-        var index = 0
-
         maxSmtTestInfo.softConstraintsWeights
             .zip(softExpressions)
             .forEach { (weight, expr) ->
-                maxSMTSolver.AssertSoft(expr, weight.toInt(), index.toString())
+                maxSMTSolver.AssertSoft(expr, weight.toInt(), "s")
                 softConstraintsWeightsSum += weight
-                index += 1
             }
 
         val task = Callable {
