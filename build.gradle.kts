@@ -18,13 +18,7 @@ dependencies {
     implementation("io.ksmt:ksmt-runner:0.5.8")
 
     implementation("tools.aqua:z3-turnkey:4.12.2.1")
-
-    // 4.8.8.1
-    //implementation("com.microsoft.z3:java-jar:4.11.2")
-    // implementation("com.microsoft.z3:libz3.java.win:4.8.8")
-    //implementation("com.microsoft.z3:libz3.java.linux:4.11.2")
-    // implementation("com.microsoft.z3:libz3.win:4.8.8")
-    // implementation("com.microsoft.z3:libz3.linux:4.11.2")
+    implementation("org.sosy-lab:java-smt:4.1.0")
 
     implementation(project(":ksmt-test"))
     implementation(project(":ksmt-maxsmt"))

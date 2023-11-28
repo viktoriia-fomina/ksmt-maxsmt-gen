@@ -62,10 +62,10 @@ class TestConverter {
             return
         }
 
+        println("[INFO] [$testPath] processing started")
+
         Z3_ctx = Context()
         maxSMTSolver = Z3_ctx.mkOptimize()
-
-        // maxSMTSolver.fromFile(testPath.toString())
 
         val expressions = Z3_ctx.parseSMTLIB2File(
             testPath.toString(),
@@ -74,8 +74,6 @@ class TestConverter {
             emptyArray(),
             emptyArray(),
         ).toList()
-
-        println("[INFO] [$testPath] processing started")
 
         val maxSmtTestIntoPath = testPath.toString().removeSuffix(".smt2") + ".maxsmt"
         val maxSmtTestInfo = parseMaxSMTTestInfo(File(maxSmtTestIntoPath).toPath())
@@ -112,7 +110,7 @@ class TestConverter {
         var maxSMTResult: Status? = null
 
         try {
-            maxSMTResult = future[300, TimeUnit.SECONDS]
+            maxSMTResult = future[180, TimeUnit.SECONDS]
         } catch (ex: TimeoutException) {
             future.cancel(true)
         } catch (ex: Exception) {
@@ -131,7 +129,7 @@ class TestConverter {
             }
         }
 
-        if (maxSMTResult == null) {
+        if (maxSMTResult == null || maxSMTResult == Status.UNKNOWN) {
             processNotSucceededTest(notSucceededFile.toPath(), testPath)
             return
         }
